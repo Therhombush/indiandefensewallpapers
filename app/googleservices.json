@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "546312077097",
+    "project_id": "indiandefensewallpaper",
+    "storage_bucket": "indiandefensewallpaper.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546312077097:android:dbf3a795d9c1b1f47b4138",
+        "android_client_info": {
+          "package_name": "com.example.indiandefensewallpapers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ9chbBLLs9FGXyO7aHbl_rvS46r_VrOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
