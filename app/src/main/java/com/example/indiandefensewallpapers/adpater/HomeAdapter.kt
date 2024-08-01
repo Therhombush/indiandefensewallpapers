@@ -1,12 +1,14 @@
 package com.example.indiandefensewallpapers.adpater
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.indiandefensewallpapers.FinalWallpaper
 import com.example.indiandefensewallpapers.Model.homeModel
 import com.example.indiandefensewallpapers.R
 import java.util.ArrayList
@@ -27,6 +29,12 @@ class HomeAdapter(val requireContext: Context , val listhome: ArrayList<homeMode
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         Glide.with(requireContext).load(listhome[position].link).into(holder.imageview);
+        holder.itemView.setOnClickListener{
+            val intent= Intent(requireContext,FinalWallpaper::class.java)
+            intent.putExtra("link",listhome[position].link)
+
+            requireContext.startActivity(intent)
+        }
     }
 
     override fun getItemCount()=listhome.size

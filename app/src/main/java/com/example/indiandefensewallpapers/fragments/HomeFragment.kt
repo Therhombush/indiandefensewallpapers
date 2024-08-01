@@ -32,8 +32,8 @@ class HomeFragment : Fragment() {
             val data=value?.toObjects(homeModel::class.java)
             listhome.addAll(data!!)
 
-            binding.rcvHome.layoutManager=GridLayoutManager(requireContext(),3)
-            binding.rcvHome.adapter=HomeAdapter(requireContext(),listhome)
+            binding.rcvHome.layoutManager = GridLayoutManager(requireContext(), 3)
+            binding.rcvHome.adapter = HomeAdapter(requireContext(), listhome)
 
         }
         return binding.root

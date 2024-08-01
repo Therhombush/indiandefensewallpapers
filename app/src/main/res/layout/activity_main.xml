@@ -57,12 +57,14 @@
             android:id="@+id/ic_home"
             android:layout_width="148dp"
             android:layout_height="wrap_content"
+            android:background="@color/black"
             android:layout_weight="1">
 
             <ImageView
                 android:layout_width="165dp"
                 android:layout_height="44dp"
-                android:src="@drawable/home" />
+                android:src="@drawable/homefinal"
+                android:background="@color/black"/>
         </FrameLayout>
 
 
@@ -71,13 +73,15 @@
             android:id="@+id/ic_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/black"
             android:layout_weight="1">
 
             <ImageView
-                android:layout_width="109dp"
+                android:layout_width="165dp"
                 android:layout_height="44dp"
                 android:scaleType="fitEnd"
-                android:src="@drawable/download" />
+                android:src="@drawable/down"
+                android:background="@color/black"/>
         </FrameLayout>
 
 

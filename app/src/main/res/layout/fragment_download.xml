@@ -3,18 +3,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.DownloadFragment">
-    
-      <RelativeLayout
+    tools:context=".fragments.DownloadFragment"
+    android:background="@color/black">
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-         <TextView
-             android:layout_alignParentTop="true"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:textSize="39dp"
-             android:text="Downloaded" />
-      </RelativeLayout>
+        <!-- Taskbar with Label -->
+        <LinearLayout
+            android:id="@+id/toolbar"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:padding="16dp"
+            android:orientation="horizontal"
+            android:gravity="left">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WALLPAPERS"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bom"
+            android:layout_below="@id/toolbar"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            android:paddingStart="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:text="DOWNLOADS">
+
+            </TextView>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcvDownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </FrameLayout>

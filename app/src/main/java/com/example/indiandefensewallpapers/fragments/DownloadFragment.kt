@@ -1,41 +1,86 @@
-package com.example.indiandefensewallpapers.fragments
-
+import android.content.ContentUris
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.indiandefensewallpapers.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.indiandefensewallpapers.ImageModel
+import com.example.indiandefensewallpapers.adpater.DownloadAdapter
+import com.example.indiandefensewallpapers.databinding.FragmentDownloadBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DownloadFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DownloadFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentDownloadBinding
+    private val images = mutableListOf<ImageModel>()
+    private lateinit var imageAdapter: DownloadAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_download, container, false)
+        binding = FragmentDownloadBinding.inflate(inflater, container, false)
+
+        imageAdapter = DownloadAdapter(requireContext(), images)
+        binding.rcvDownload.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.rcvDownload.adapter = imageAdapter
+
+        loadDownloadedImages()
+
+        return binding.root
     }
 
+    private fun loadDownloadedImages() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val imageList = mutableListOf<ImageModel>()
+            val projection = arrayOf(
+                MediaStore.Images.Media.DISPLAY_NAME,
+                MediaStore.Images.Media._ID
+            )
+            val selection = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                "${MediaStore.Images.Media.RELATIVE_PATH} LIKE ?"
+            } else {
+                "${MediaStore.Images.Media.DATA} LIKE ?"
+            }
+            val selectionArgs = arrayOf("%IndianDefenseWallpapers%")
+            val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
+
+            val query = requireContext().contentResolver.query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                projection,
+                selection,
+                selectionArgs,
+                sortOrder
+            )
+
+            query?.use { cursor ->
+                val nameColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
+                val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+
+                while (cursor.moveToNext()) {
+                    val name = cursor.getString(nameColumn)
+                    val id = cursor.getLong(idColumn)
+                    val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+                    Log.d("DownloadFragment", "Image found: $name, URI: $uri") // Debug log
+                    imageList.add(ImageModel(name, uri))
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+                if (imageList.isEmpty()) {
+                    Log.d("DownloadFragment", "No images found in the specified directory.")
+                }
+                images.clear()
+                images.addAll(imageList)
+                imageAdapter.notifyDataSetChanged()
+            }
+        }
+    }
 }

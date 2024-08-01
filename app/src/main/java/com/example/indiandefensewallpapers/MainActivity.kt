@@ -31,6 +31,7 @@ package com.example.indiandefensewallpapers
 //    }
 //}
 
+import DownloadFragment
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
@@ -40,7 +41,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.indiandefensewallpapers.databinding.ActivityMainBinding
-import com.example.indiandefensewallpapers.fragments.DownloadFragment
 import com.example.indiandefensewallpapers.fragments.HomeFragment
 
 class MainActivity : AppCompatActivity() {
